@@ -6,12 +6,29 @@ using System.Threading.Tasks;
 
 using BepInEx;
 
+using CopycatQol.Modules;
+
 namespace CopycatQol
 {
+    [BepInDependency(BepInEx.Extensions.LibraryInfo.BepInDependencyID)]
     [BepInPlugin(ModInfo.GUID, ModInfo.PluginName, ModInfo.Version)]
     public class Bootloader : BaseUnityPlugin
     {
+        private CoreModule _CoreModule;
+        internal CoreModule CoreModule 
+        { 
+            get
+            {
+                if (_CoreModule == null)
+                    _CoreModule = new CoreModule();
+                return _CoreModule;
+            } 
+        }
 
+        void Awake()
+        {
+            CoreModule.LoadModule(Config, Logger);
+        }
     }
 
     public static class ModInfo
